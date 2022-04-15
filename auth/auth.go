@@ -15,7 +15,8 @@ type User struct {
 }
 
 type Auth struct {
-	Token string
+	Token    string
+	Username string
 }
 
 type JwtClaims struct {

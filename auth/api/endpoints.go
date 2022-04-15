@@ -71,6 +71,7 @@ func AuthorizeEndpoint(svc auth.Service) endpoint.Endpoint {
 			Message: "Success Authorize User",
 			Data: map[string]string{
 				"token": auth.Token,
+				"name":  auth.Username,
 			},
 		}, nil
 

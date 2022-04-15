@@ -47,8 +47,7 @@ func (svc *AuthService) Authorize(ctx context.Context, username string, password
 
 	claims := &JwtClaims{
 		StandardClaims: jwt.StandardClaims{
-			Issuer:    "JWT_AUTH_SERVER",
-			ExpiresAt: time.Now().Add(15 * time.Minute).Unix(),
+			ExpiresAt: time.Now().Add(3 * 24 * time.Hour).Unix(),
 		},
 		Username: CurrentUser.Username,
 	}
@@ -64,7 +63,8 @@ func (svc *AuthService) Authorize(ctx context.Context, username string, password
 	}
 
 	return &Auth{
-		Token: tokenString,
+		Token:    tokenString,
+		Username: CurrentUser.Username,
 	}, nil
 }
 

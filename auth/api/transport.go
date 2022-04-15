@@ -22,7 +22,6 @@ var (
 
 func MakeHTTPHandler(svc auth.Service, logger log.Logger) http.Handler {
 	r := mux.NewRouter()
-	r.Use(corsMiddleware)
 
 	e := MakeServerEndpoint(svc)
 	opt := []httptransport.ServerOption{
@@ -53,20 +52,6 @@ func decodeUserRequest(_ context.Context, r *http.Request) (request interface{},
 		return nil, e
 	}
 	return req, nil
-}
-
-func corsMiddleware(h http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-		w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type")
-
-		if r.Method == "OPTIONS" {
-			return
-		}
-
-		h.ServeHTTP(w, r)
-	})
 }
 
 type UserReqBody struct {

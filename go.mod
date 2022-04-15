@@ -10,6 +10,7 @@ require (
 	github.com/gofrs/uuid v4.2.0+incompatible
 	github.com/gorilla/mux v1.8.0
 	github.com/jmoiron/sqlx v1.3.4
+	github.com/rs/cors v1.8.2
 	github.com/rubenv/sql-migrate v1.1.1
 	gorm.io/driver/mysql v1.3.3
 )

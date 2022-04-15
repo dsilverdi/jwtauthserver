@@ -9,6 +9,7 @@ import (
 	"os"
 
 	"github.com/go-kit/log"
+	"github.com/rs/cors"
 
 	"github.com/jmoiron/sqlx"
 )
@@ -34,10 +35,19 @@ func main() {
 		h = api.MakeHTTPHandler(svc, log.With(logger, "component", "HTTP"))
 	}
 
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowCredentials: true,
+
+		AllowedHeaders: []string{"Authorization", "Content-Type", "Access-Control-Allow-Origin"},
+		// Enable Debugging for testing, consider disabling in production
+		AllowedMethods: []string{"GET", "UPDATE", "PUT", "POST", "DELETE"},
+	})
+
 	errs := make(chan error)
 	go func() {
 		logger.Log("transport", "HTTP", "addr", ":8080")
-		errs <- http.ListenAndServe(":8080", h)
+		errs <- http.ListenAndServe(":8080", c.Handler(h))
 	}()
 
 	logger.Log("exit", <-errs)
